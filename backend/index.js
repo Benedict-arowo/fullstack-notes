@@ -4,6 +4,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
+const morgan = require("morgan");
+const xss = require('xss-clean')
 const db = require("./db/connectDB");
 
 const apiLimiter = rateLimit({
@@ -13,10 +15,14 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-// Apply the rate limiting middleware to API calls only
+
+// Middlewears
 app.use(cors());
+app.use(morgan("dev"));
+app.use(xss())
 app.use("/api", apiLimiter);
 
+// Routes
 app.get("/", (req, res) => {
 	res.send("<h1>Server running!</h1>");
 });
