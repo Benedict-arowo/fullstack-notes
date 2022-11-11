@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
+const db = require("./db/connectDB");
 
 const apiLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -20,10 +21,15 @@ app.get("/", (req, res) => {
 	res.send("<h1>Server running!</h1>");
 });
 
-try {
-	app.listen(PORT, () => {
-		console.log(`Server listing to port ${PORT}`);
-	});
-} catch (error) {
-	console.log(error);
-}
+const start = async () => {
+	try {
+		await db(process.env.DB_URI);
+		app.listen(PORT, () => {
+			console.log(`Server listing to port ${PORT}`);
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+start();
