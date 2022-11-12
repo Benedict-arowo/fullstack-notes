@@ -8,12 +8,12 @@ const login = async (req, res) => {
 	if (!user) {
 		return res.json({
 			msg: `Could not find user with the username of ${username}`,
-		});
+		}); // Throw an error here
 	}
 	// Compares the password saved in the database with the one the provided by the user.
 	const compare = user.verifyPassword(password);
 	if (!compare) {
-		return res.json({ msg: "Password does not match" });
+		return res.json({ msg: "Password does not match" }); // Throw an error here
 	}
 	// Generates an access token for the user.
 	const token = user.getToken();

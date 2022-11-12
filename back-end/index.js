@@ -8,6 +8,9 @@ const morgan = require("morgan");
 const xss = require("xss-clean");
 const db = require("./db/connectDB");
 const authRouter = require("./routes/authRouter");
+const notesRouter = require("./routes/notesRouter");
+const errHandler = require("./errors/errorHandler");
+const authentication = require("./middlewears/auth");
 const apiLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -22,14 +25,15 @@ app.use(xss());
 app.use("/api", apiLimiter);
 app.use(express.json());
 
-// Error Handlers
-
 // Routes
 app.get("/", async (req, res) => {
 	res.send("<h1>Server running!</h1>");
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/notes", authentication, notesRouter);
+
+app.use(errHandler);
 
 const start = async () => {
 	try {
