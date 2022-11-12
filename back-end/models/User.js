@@ -33,4 +33,8 @@ userSchema.methods.getToken = function () {
 	);
 };
 
+userSchema.methods.verifyPassword = function (password) {
+	return bcrypt.compare(password, this.password);
+};
+
 module.exports = mongoose.model("Users", userSchema);
