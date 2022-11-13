@@ -6,13 +6,24 @@ const getNotes = asyncWrapper(async (req, res) => {
 	// Get multiple notes
 	const { id } = req.user;
 	const userNotes = await notesModel.find({ owner: id });
+	console.log(userNotes);
 	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
 });
 
-const getNote = (req, res) => {
-	// Get a single note
-	res.json({ page: "getNote" });
-};
+const getNote = asyncWrapper(async (req, res) => {
+	const {
+		params: { id: noteId },
+		user: { id: userId },
+	} = req;
+	const note = await notesModel.findOne({ ownerId: userId, _id: noteId });
+	console.log(await notesModel.find({ _id: noteId }));
+	if (!note) {
+		return res
+			.json({ status: "Note note found." })
+			.status(StatusCodes.NOT_FOUND);
+	}
+	res.json({ status: "success", data: note });
+});
 
 const editNote = (req, res) => {
 	// Edits a note
@@ -26,8 +37,7 @@ const deleteNote = (req, res) => {
 
 const createNote = asyncWrapper(async (req, res) => {
 	// Creates a note
-	const newNote = await notesModel.create(req.body);
-	newNote.setOwner(req.user.id); // Sets the note owner to the current user's id
+	const newNote = await notesModel.create({ ...req.body, owner: req.user.id }); // Sets the note owner to the current user's id
 	res.json({ status: "success", data: newNote }).status(StatusCodes.OK);
 });
 

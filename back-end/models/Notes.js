@@ -17,7 +17,9 @@ const notesSchema = new mongoose.Schema(
 			type: Array,
 		},
 		owner: {
-			type: String,
+			type: mongoose.Types.ObjectId,
+			ref: "ownerId",
+			required: [true, "Owner id is required."],
 		},
 	},
 	{ timestamps: true }
@@ -34,9 +36,5 @@ notesSchema.pre("save", function (next) {
 	}
 	next();
 });
-
-notesSchema.methods.setOwner = function (userID) {
-	return (this.owner = userID);
-};
 
 module.exports = mongoose.model("Notes", notesSchema);
