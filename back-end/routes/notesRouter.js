@@ -8,7 +8,7 @@ const {
 	createNote,
 } = require("../controllers/notes");
 
-router.route("/").get(getNotes).post(createNote);
-router.route("/:id").get(getNote).post(editNote).delete(deleteNote);
+router.route("/notes/").get(getNotes).post(createNote);
+router.route("/note/:id").get(getNote).post(editNote).delete(deleteNote);
 
 module.exports = router;

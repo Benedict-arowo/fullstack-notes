@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const login = async (req, res) => {
 	const { username, password } = req.body;
-	let user = await User.findOne({ username: username });
+	let user = await User.findOne({ username: username.toLowerCase() });
 	// If user does not exist.
 	if (!user) {
 		return res.json({
@@ -23,7 +23,10 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-	const newUser = await User.create(req.body);
+	const newUser = await User.create({
+		...req.body,
+		username: req.body.username.toLowerCase(), // Saves all username in lowercase to make it case insensitive when trying to login.
+	});
 	const token = newUser.getToken(); // Generates an access token for the user
 	res.json({ status: "success", token }).status(StatusCodes.CREATED);
 };

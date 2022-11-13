@@ -1,7 +1,13 @@
-const getNotes = (req, res) => {
+const { StatusCodes } = require("http-status-codes");
+const { notesModel } = require("../models");
+const { asyncWrapper } = require("../middlewears");
+
+const getNotes = asyncWrapper(async (req, res) => {
 	// Get multiple notes
-	res.json({ page: "getNotes" });
-};
+	const { id } = req.user;
+	const userNotes = await notesModel.find({ owner: id });
+	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
+});
 
 const getNote = (req, res) => {
 	// Get a single note
@@ -15,12 +21,14 @@ const editNote = (req, res) => {
 
 const deleteNote = (req, res) => {
 	// Deletes a note
-	res.json({ page: "delteNote" });
+	res.json({ page: "deleteNote" });
 };
 
-const createNote = (req, res) => {
+const createNote = asyncWrapper(async (req, res) => {
 	// Creates a note
-	res.json({ page: "createNote" });
-};
+	const newNote = await notesModel.create(req.body);
+	newNote.setOwner(req.user.id);
+	res.json({ status: "success", data: newNote }).status(StatusCodes.OK);
+});
 
 module.exports = { getNotes, getNote, editNote, deleteNote, createNote };

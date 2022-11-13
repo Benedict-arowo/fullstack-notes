@@ -31,7 +31,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/notes", authentication, notesRouter);
+app.use("/api/v1", authentication, notesRouter);
 
 app.use(errHandler);
 

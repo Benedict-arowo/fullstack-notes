@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: [true, "Password field is required!"],
-		minLength: [12, "Password length must be more than 12 characters"],
+		minLength: [
+			Number(process.env.MIN_PASSWORD_LENGTH),
+			`Password length must be more than process ${process.env.MIN_PASSWORD_LENGTH} characters`,
+		],
 	},
 });
 
