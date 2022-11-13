@@ -27,7 +27,7 @@ const deleteNote = (req, res) => {
 const createNote = asyncWrapper(async (req, res) => {
 	// Creates a note
 	const newNote = await notesModel.create(req.body);
-	newNote.setOwner(req.user.id);
+	newNote.setOwner(req.user.id); // Sets the note owner to the current user's id
 	res.json({ status: "success", data: newNote }).status(StatusCodes.OK);
 });
 
