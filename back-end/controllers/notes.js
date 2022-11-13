@@ -6,7 +6,6 @@ const getNotes = asyncWrapper(async (req, res) => {
 	// Get multiple notes
 	const { id } = req.user;
 	const userNotes = await notesModel.find({ owner: id });
-	console.log(userNotes);
 	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
 });
 
@@ -16,7 +15,6 @@ const getNote = asyncWrapper(async (req, res) => {
 		user: { id: userId },
 	} = req;
 	const note = await notesModel.findOne({ ownerId: userId, _id: noteId });
-	console.log(await notesModel.find({ _id: noteId }));
 	if (!note) {
 		return res
 			.json({ status: "Note note found." })
