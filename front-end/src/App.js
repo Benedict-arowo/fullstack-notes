@@ -1,9 +1,22 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Nav from "./components/nav";
+import "./index.css";
+import fetchReq from "./fetchReq";
 
+fetchReq({
+	url: "notes",
+	options: {
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json",
+		},
+	},
+});
 const App = () => {
 	return (
 		<>
+			<Nav></Nav>
 			<Routes>
 				<Route path="/auth">
 					<Route path="login" element={<h1>Login Page</h1>}></Route>
