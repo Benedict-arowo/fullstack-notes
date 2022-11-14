@@ -1,27 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/nav";
-import Login from "./pages/authentication/login";
-import Register from "./pages/authentication/register";
+import Login from "./pages/authentication/Login";
+import Register from "./pages/authentication/Register";
 
 import "./index.css";
-// import fetchReq from "./fetchReq";
-
-// fetchReq({
-// 	url: "auth/register",
-// 	options: {
-// 		crossDomain: true,
-// 		method: "POST",
-// 		headers: {
-// 			"Content-Type": "application/json",
-// 		},
-// 		body: JSON.stringify({
-// 			username: "",
-// 			password: "",
-// 			email: "",
-// 		}),
-// 	},
-// });
 
 const App = () => {
 	return (
