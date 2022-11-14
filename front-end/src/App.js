@@ -2,6 +2,8 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/nav";
 import Login from "./pages/authentication/login";
+import Register from "./pages/authentication/register";
+
 import "./index.css";
 // import fetchReq from "./fetchReq";
 
@@ -24,7 +26,6 @@ import "./index.css";
 const App = () => {
 	return (
 		<>
-			<Nav></Nav>
 			<Routes>
 				<Route path="">
 					{/* For Authentication */}
