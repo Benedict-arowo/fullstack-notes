@@ -23,9 +23,13 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
+	if (!req.body || !req.body.username || !req.body.email) {
+		throw new Error("Invalid credientials");
+	}
 	const newUser = await User.create({
 		...req.body,
-		username: req.body.username.toLowerCase(), // Saves all username in lowercase to make it case insensitive when trying to login.
+		email: req.body.email.toLowerCase(),
+		username: req.body.username.toLowerCase(), // Saves all username, and email in lowercase to make it case insensitive when trying to login.
 	});
 	const token = newUser.getToken(); // Generates an access token for the user
 	res.json({ status: "success", token }).status(StatusCodes.CREATED);
