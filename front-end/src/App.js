@@ -2,17 +2,24 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/nav";
 import "./index.css";
-import fetchReq from "./fetchReq";
+// import fetchReq from "./fetchReq";
 
-fetchReq({
-	url: "notes",
-	options: {
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type": "application/json",
-		},
-	},
-});
+// fetchReq({
+// 	url: "auth/register",
+// 	options: {
+// 		crossDomain: true,
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		},
+// 		body: JSON.stringify({
+// 			username: "",
+// 			password: "",
+// 			email: "",
+// 		}),
+// 	},
+// });
+
 const App = () => {
 	return (
 		<>

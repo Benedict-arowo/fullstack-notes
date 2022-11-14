@@ -18,16 +18,24 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+const corsOption = {
+	origin: true,
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	preflightContinue: false,
+	optionsSuccessStatus: 204,
+	credentials: true,
+};
 // Middlewears
-app.use(cors());
+app.use(cors(corsOption));
 app.use(morgan("dev"));
 app.use(xss());
 app.use("/api", apiLimiter);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get("/", async (req, res) => {
-	res.send("<h1>Server running!</h1>");
+	res.json({ data: "<h1>Server running!</h1>" });
 });
 
 app.use("/api/v1/auth", authRouter);

@@ -3,10 +3,8 @@ import { API_URL } from "./config";
 const fetchReq = async ({ url, options }) => {
 	try {
 		const response = await fetch(`${API_URL}${url}`, options);
-		console.log(response);
-		if (!response.OK) {
-			throw new Error("Something went wrong.");
-		}
+		const data = await response.json();
+		console.log(data);
 	} catch (error) {
 		console.log(error);
 		return; // TODO: Handle error using error context
