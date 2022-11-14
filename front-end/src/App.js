@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/nav";
+import Login from "./pages/authentication/login";
 import "./index.css";
 // import fetchReq from "./fetchReq";
 
@@ -25,9 +26,10 @@ const App = () => {
 		<>
 			<Nav></Nav>
 			<Routes>
-				<Route path="/auth">
-					<Route path="login" element={<h1>Login Page</h1>}></Route>
-					<Route path="register" element={<h1>Register Page</h1>}></Route>
+				<Route path="">
+					{/* For Authentication */}
+					<Route path="login" element={<Login />}></Route>
+					<Route path="register" element={<Register />}></Route>
 				</Route>
 				<Route path="" element={<Nav />}>
 					<Route index element={<h1>Main Page</h1>}></Route>
