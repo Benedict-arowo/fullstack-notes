@@ -1,9 +1,16 @@
 import React from 'react'
 import Styled from 'styled-components'
+import { Outlet } from 'react-router-dom'
 
 const nav = () => {
     return (
-        <Container>nav</Container>
+        <>
+            <Container>
+                nav
+            </Container>
+
+            <Outlet />
+        </>
     )
 }
 
