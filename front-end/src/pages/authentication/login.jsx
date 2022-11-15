@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { API_URL, PASSWORD_PATTERN, USERNAME_PATTERN } from '../../config'
+import { useSetUser } from '../../contexts/UserContext'
 import { fetchReq } from '../../fetchReq'
 import { Icon, Container } from './Register'
+
 const Login = () => {
+    const setUser = useSetUser()
     const userData = useLocation()
     const passwordHolder = useRef('')
     const [passwordType, setPasswordType] = useState()
@@ -64,11 +67,18 @@ const Login = () => {
         // Reset the form
         if (response.err) { // If an error occurs
             console.log('An error as occured') // TODO: show a nice alert for error
+            setUser({ authenticated: false })
             throw new Error(response.err)
         }
         setUserCredentials({ username: '', password: '', email: '' })
         const accessToken = response.token
+        console.log(response)
         localStorage.setItem('token', accessToken) // TODO: change local storage to cookie.
+        setUser({
+            authenticated: true,
+            id: response.user.id,
+            username: response.user.username,
+        })
         console.log('Successfully logged in!')
     }
 
