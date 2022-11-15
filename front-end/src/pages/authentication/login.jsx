@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useRef, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { API_URL, PASSWORD_PATTERN, USERNAME_PATTERN } from '../../config'
 import { fetchReq } from '../../fetchReq'
 import { Icon, Container } from './Register'
 const Login = () => {
+    const userData = useLocation()
     const passwordHolder = useRef('')
     const [passwordType, setPasswordType] = useState()
     // Allow signing in using emails...
@@ -11,6 +12,13 @@ const Login = () => {
         username: '',
         password: ''
     })
+
+    useEffect(() => { // Fills up the form with incoming state data from the login page except the password if it exists
+        if (userData.state) {
+            setUserCredentials(() => { return { ...userCredentials, ...userData.state, password: '' } })
+        }
+        // eslint-disable-next-line
+    }, [userData])
 
     const handleChange = (item, newChange) => {
         // Updates the state with the info passed in.

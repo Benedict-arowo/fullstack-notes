@@ -13,9 +13,9 @@ const Register = () => {
         email: '',
         password: '',
     })
-    useEffect(() => { // Fills up the form with incoming state data from the login page if it exists
+    useEffect(() => { // Fills up the form with incoming state data from the login page except the password if it exists
         if (userData.state) {
-            setUserCredentials(() => { return { ...userCredentials, ...userData.state } })
+            setUserCredentials(() => { return { ...userCredentials, ...userData.state, password: '' } })
         }
         // eslint-disable-next-line
     }, [userData])
@@ -110,7 +110,7 @@ const Register = () => {
                 </Container>
 
                 <button>Register</button>
-                <p>Already have an account? <Link to='../login'>Login</Link></p>
+                <p>Already have an account? <Link to='../login' state={userCredentials}>Login</Link></p>
             </form>
         </>
     )
