@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { EMAIL_PATTERN, PASSWORD_PATTERN, USERNAME_PATTERN } from '../../config'
 import { fetchReq } from '../../fetchReq'
 
 const Register = () => {
@@ -22,6 +23,23 @@ const Register = () => {
 
     const registerUser = async (e) => {
         e.preventDefault()
+
+        // Checks if the given data matches the regex pattern
+        // Validates username.
+        if (!USERNAME_PATTERN.test(userCredentials.username)) {
+            throw new Error('Invalid Username') // TODO: need to handle properly
+        }
+        // Validates email
+        if (!EMAIL_PATTERN.test(userCredentials.email)) {
+            throw new Error('Invalid Email') // TODO: need to handle properly
+        }
+        // Validates password
+        if (!PASSWORD_PATTERN.test(userCredentials.password)) {
+            console.log(userCredentials.password)
+            throw new Error('Invalid Password') // TODO: need to handle properly
+        }
+
+
         const response = await fetchReq({
             url: 'auth/register',
             options: {
@@ -52,7 +70,7 @@ const Register = () => {
     return (
         <>
             <h1>Register</h1>
-            <form action="" onSubmit={(e) => registerUser(e)}>
+            <form action="" method='POST' onSubmit={(e) => registerUser(e)}>
                 <section>
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" value={userCredentials.username} onChange={e => handleChange(e.currentTarget.name, e.target.value)} id="username" />
