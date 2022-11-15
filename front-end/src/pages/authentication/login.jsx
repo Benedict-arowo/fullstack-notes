@@ -18,7 +18,7 @@ const login = () => {
                 </section>
 
                 <button>Login</button>
-                <p>Don't have an account? <Link to='../register'>Register</Link></p>
+                <p>Don&apos;t have an account? <Link to='../register'>Register</Link></p>
             </form>
         </>
     )
