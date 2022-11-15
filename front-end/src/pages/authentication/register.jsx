@@ -110,11 +110,12 @@ const Register = () => {
     )
 }
 
-const Icon = styled.svg`
+export const Icon = styled.svg`
     width: 24px;
+    cursor: pointer;
 `
 
-const Container = styled.div`
+export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
