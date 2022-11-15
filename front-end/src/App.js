@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/nav";
-import Login from "./pages/authentication/Login";
-import Register from "./pages/authentication/Register";
+import Login from "./pages/authentication/Login.jsx";
+import Register from "./pages/authentication/Register.jsx";
 import "./index.css";
 import CheckAuth from "./contexts/CheckAuth";
 
