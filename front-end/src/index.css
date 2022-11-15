@@ -3,3 +3,30 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+button {
+    padding: 4px 24px;
+    cursor: pointer;
+}
+
+a {
+    color: #360073;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+input {
+    padding: 4px 8px 4px 12px;
+    width: 100%;
+}
+
+input:focus,
+input:hover {
+    border-color: black;
+    outline-color: darkorchid;
+}
