@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { EMAIL_PATTERN, PASSWORD_PATTERN, USERNAME_PATTERN } from '../../config'
 import { fetchReq } from '../../fetchReq'
 
 const Register = () => {
+    const userData = useLocation()
     const passwordHolder = useRef('')
     const [passwordType, setPasswordType] = useState()
     const [userCredentials, setUserCredentials] = useState({
@@ -12,7 +13,12 @@ const Register = () => {
         email: '',
         password: '',
     })
-
+    useEffect(() => { // Fills up the form with incoming state data from the login page if it exists
+        if (userData.state) {
+            setUserCredentials(() => { return { ...userCredentials, ...userData.state } })
+        }
+        // eslint-disable-next-line
+    }, [userData])
     const handleChange = (item, newChange) => {
         // Updates the state with the info passed in.
         setUserCredentials(prevCredentials => {

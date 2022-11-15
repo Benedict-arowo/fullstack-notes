@@ -91,7 +91,7 @@ const Login = () => {
                 </Container>
 
                 <button>Login</button>
-                <p>Don&apos;t have an account? <Link to='../register'>Register</Link></p>
+                <p>Don&apos;t have an account? <Link to='../register' state={userCredentials}>Register</Link></p>
             </form>
         </>
     )
