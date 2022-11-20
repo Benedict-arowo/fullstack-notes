@@ -20,13 +20,25 @@ a {
     text-decoration: none;
 }
 
-input {
-    padding: 4px 8px 4px 12px;
-    width: 100%;
-}
 
 input:focus,
 input:hover {
     border-color: black;
     outline-color: darkorchid;
 }
+
+input {
+    outline: none !important;
+}
+
+.overlay {
+    background-color: #00000080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @apply absolute top-0 left-0 right-0 bottom-0
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
