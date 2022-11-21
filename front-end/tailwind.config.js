@@ -5,6 +5,9 @@ module.exports = {
 		minHeight: {
 			"3/4": "70%",
 		},
+		minWidth: {
+			'sidebar': '250px'
+		},
 		extend: {},
 	},
 	plugins: [],
