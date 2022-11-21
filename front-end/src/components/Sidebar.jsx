@@ -8,7 +8,13 @@ const Sidebar = () => {
 
 
     const showSearch = () => {
-        searchOverlay.current.style.cssText = 'display: flex'
+        searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
+
+        // Fade in effect.
+        setTimeout(() => {
+            searchOverlay.current.style.opacity = 1;
+        }, 100);
+
         mainSearch.current.focus() // Sets focus on the main search.
 
         // Animate the search dialog.
@@ -18,7 +24,12 @@ const Sidebar = () => {
         // Closes the overlay whenever its clicked.
         let classLists = e.target.className.split(' ')
         if (classLists.includes('overlay')) {
-            e.target.style.display = 'none'
+            const element = e.target
+            element.style.cssText = 'opacity: 0; display: flex;'
+            // Fade out effect.
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 100)
         }
     }
 
@@ -38,7 +49,7 @@ const Sidebar = () => {
             <section className='mt-24 px-2'>
                 <input type="text" name="Search" id="" className='w-full rounded-full py-2 px-4' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
                 {/* Expanded Search */}
-                <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay'>
+                <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay duration-300 transition-all'>
                     {/* height: h-3/4 when folders are being dislplayed  */}
                     <div className='bg-blue-300 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
                         <input ref={mainSearch} type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full focus:drop-shadow-md transition-all duration-300' />
