@@ -41,12 +41,12 @@ const Sidebar = () => {
 
             {/* Search Component */}
             <section className='mt-6 px-2'>
-                <input type="text" name="Search" id="" className='w-full rounded-full py-2 px-4' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
+                <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
                 {/* Expanded Search */}
                 <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay duration-300 transition-all z-10'>
                     {/* height: h-3/4 when folders are being dislplayed  */}
                     <div className='bg-blue-300 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
-                        <input ref={mainSearch} type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full focus:drop-shadow-md transition-all duration-300' />
+                        <input ref={mainSearch} autoComplete='off' autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full focus:drop-shadow-md transition-all duration-300' />
                         {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
                     </div>
                 </div>
@@ -54,19 +54,19 @@ const Sidebar = () => {
 
             {/* Main Options */}
             <section className='px-4 pt-4 flex gap-2 mt-2 flex-col duration-300 text-md text-blue-800'>
-                {/* Create New Folder */}
-                <section className='hover:text-black cursor-pointer flex w-full flex-row items-center gap-3'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                    </svg>
-                    <h3>Create new folder</h3>
-                </section>
                 {/* View All Items */}
                 <section className="hover:text-black cursor-pointer flex w-full flex-row items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                     </svg>
                     <h3>View all items</h3>
+                </section>
+                {/* Create New Folder */}
+                <section className='hover:text-black cursor-pointer flex w-full flex-row items-center gap-3'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                    </svg>
+                    <h3>Create new folder</h3>
                 </section>
                 {/* Create New Item */}
                 <section className="hover:text-black cursor-pointer flex w-full flex-row items-center gap-3">
