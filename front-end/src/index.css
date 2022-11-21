@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
     padding: 0;
     margin: 0;
@@ -31,6 +35,13 @@ input {
     outline: none !important;
 }
 
+body,
+html,
+#root {
+    height: 100%;
+    overflow: hidden;
+}
+
 .overlay {
     background-color: #00000080;
     display: none;
@@ -39,7 +50,3 @@ input {
     position: fixed;
     @apply top-0 left-0 right-0 bottom-0
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
