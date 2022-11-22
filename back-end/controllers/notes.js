@@ -28,9 +28,16 @@ const editNote = (req, res) => {
 	res.json({ page: "editNote" });
 };
 
-const deleteNote = (req, res) => {
+const deleteNote = async (req, res) => {
+	const { params: { id: noteId }, user: { id: userId } } = req;
+	const note = await notesModel.findOneAndDelete({ _id: noteId, ownerId: userId });
+	if (!note) {
+		return res
+			.json({ status: "Note note found." })
+			.status(StatusCodes.NOT_FOUND);
+	}
 	// Deletes a note
-	res.json({ page: "deleteNote" });
+	res.json({ status: "success" }).status(StatusCodes.OK);
 };
 
 const createNote = asyncWrapper(async (req, res) => {
