@@ -35,6 +35,10 @@ input {
     outline: none !important;
 }
 
+#mainSidebar {
+    box-shadow: -10px 0px 15px 5px;
+}
+
 body,
 html,
 #root {

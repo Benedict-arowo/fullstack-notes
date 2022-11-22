@@ -6,7 +6,7 @@ module.exports = {
 			"3/4": "70%",
 		},
 		minWidth: {
-			'sidebar': '250px'
+			'sidebar': '280px'
 		},
 		extend: {},
 	},
