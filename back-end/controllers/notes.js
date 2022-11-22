@@ -20,7 +20,7 @@ const getNote = asyncWrapper(async (req, res) => {
 			.json({ status: "Note note found." })
 			.status(StatusCodes.NOT_FOUND);
 	}
-	res.json({ status: "success", data: note });
+	res.json({ status: "success", data: note }).status(StatusCodes.OK);
 });
 
 const editNote = (req, res) => {
