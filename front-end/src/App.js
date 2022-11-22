@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav.jsx";
+import Container from "./components/Container.jsx";
 import Login from "./pages/authentication/Login.jsx";
 import Register from "./pages/authentication/Register.jsx";
 import "./index.css";
@@ -18,7 +18,7 @@ const App = () => {
 					<Route path="register" element={<Register />} />
 				</Route>
 				<Route path="" element={<UseAuth />}>
-					<Route path="" element={<Nav />}>
+					<Route path="" element={<Container />}>
 						<Route index element={<Index />} />
 					</Route>
 				</Route>
