@@ -23,10 +23,25 @@ const getNote = asyncWrapper(async (req, res) => {
 	res.json({ status: "success", data: note }).status(StatusCodes.OK);
 });
 
-const editNote = (req, res) => {
-	// Edits a note
-	res.json({ page: "editNote" });
-};
+const editNote = asyncWrapper(async (req, res) => {
+	const {
+		params: { id: noteId },
+		user: { id: userId },
+	} = req;
+	// Gets the note, and updates it. Makes sure that it's valid, and returns the updated note.
+	const note = await notesModel.findOneAndUpdate([{ ownerId: userId, _id: noteId }], req.body, {
+		new: true,
+		runValidators: true
+	});
+
+	if (!note) {
+		return res
+			.json({ status: "Note note found." })
+			.status(StatusCodes.NOT_FOUND);
+	}
+
+	res.json({ status: "success", data: note }).status(StatusCodes.OK);
+});
 
 const deleteNote = async (req, res) => {
 	const { params: { id: noteId }, user: { id: userId } } = req;
