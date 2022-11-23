@@ -6,13 +6,16 @@ const Sidebar = () => {
     const mainSearch = useRef()
     const [sidebarToggled, setSidebarToggled] = useState(true)
     const [windowWidth, setWindowWidth] = useState(0)
+    const minWidth = 1000 // For tablets and phones
 
     const showSearch = () => {
         searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
-        miniSearch.current.style.cssText = `
-        --tw-scale-x: 1.05;
-        --tw-scale-y: 1.05;
-        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));` // Adds an "active" effect
+        if (sidebarToggled) {
+            miniSearch.current.style.cssText = `
+            --tw-scale-x: 1.05;
+            --tw-scale-y: 1.05;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));` // Adds an "active" effect
+        }
 
         // Fade in effect.
         setTimeout(() => {
@@ -30,7 +33,9 @@ const Sidebar = () => {
         if (classLists.includes('overlay')) {
             const element = e.target
             element.style.cssText = 'opacity: 0; display: flex;'
-            miniSearch.current.style.cssText = '' // Removes the "active" effect.
+            if (sidebarToggled) {
+                miniSearch.current.style.cssText = '' // Removes the "active" effect.
+            }
             // Fade out effect.
             setTimeout(() => {
                 element.style.display = 'none';
@@ -40,7 +45,7 @@ const Sidebar = () => {
 
     window.addEventListener('resize', (e) => {
         const body = e.target
-        if (body.innerWidth < 1000) {
+        if (body.innerWidth < minWidth) {
             setSidebarToggled(false)
         }
         setWindowWidth(body.innerWidth)
@@ -52,7 +57,8 @@ const Sidebar = () => {
 
     // Checks if the screen is big enough for the sidebar
     useEffect(() => {
-        if (window.innerWidth < 1000) {
+        setWindowWidth(window.innerWidth)
+        if (window.innerWidth < minWidth) {
             setSidebarToggled(false)
         }
     }, [])
@@ -63,7 +69,7 @@ const Sidebar = () => {
         // w-12 when minimized
         <aside id='mainSidebar' className={`h-full bg-blue-300 flex flex-col relative pt-4 overflow-hidden ${sidebarStyles} duration-500`} >
             {/* Arrow */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 text-white absolute -top-1 right-1 hover:translate-x-2 cursor-pointer duration-300 ${windowWidth < 1000 ? 'hidden' : ''} ${sidebarToggled ? 'rotate-180' : ''}`} onClick={handleSidebar}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 text-white absolute -top-1 right-1 hover:translate-x-2 cursor-pointer duration-300 ${windowWidth < minWidth ? 'hidden' : ''} ${sidebarToggled ? 'rotate-180' : ''}`} onClick={handleSidebar}>
                 <path fillRule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clipRule="evenodd" />
             </svg>
 
@@ -75,7 +81,7 @@ const Sidebar = () => {
                 {sidebarToggled ?
                     <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:scale-105 duration-500' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
                     :
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer text-white" onClick={showSearch}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer text-white hover:scale-105 duration-500" onClick={showSearch}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
                 }
@@ -106,13 +112,10 @@ const Sidebar = () => {
                 </section>
             </section>
 
-
-
-
             <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay duration-300 transition-all z-10'>
                 {/* height: h-3/4 when folders are being dislplayed  */}
                 <div className='bg-blue-300 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
-                    <input ref={mainSearch} autoComplete='off' autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full focus:drop-shadow-md transition-all duration-300' />
+                    <input ref={mainSearch} autoComplete='off' autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full hover:drop-shadow-lg active:drop-shadow-lg transition-all duration-300' />
                     {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
                 </div>
             </div>
