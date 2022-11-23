@@ -9,6 +9,10 @@ const Sidebar = () => {
 
     const showSearch = () => {
         searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
+        miniSearch.current.style.cssText = `
+        --tw-scale-x: 1.05;
+        --tw-scale-y: 1.05;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));` // Adds an "active" effect
 
         // Fade in effect.
         setTimeout(() => {
@@ -26,6 +30,7 @@ const Sidebar = () => {
         if (classLists.includes('overlay')) {
             const element = e.target
             element.style.cssText = 'opacity: 0; display: flex;'
+            miniSearch.current.style.cssText = '' // Removes the "active" effect.
             // Fade out effect.
             setTimeout(() => {
                 element.style.display = 'none';
@@ -68,7 +73,7 @@ const Sidebar = () => {
             }
             <section className='mt-6 px-2'>
                 {sidebarToggled ?
-                    <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
+                    <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:scale-105 duration-500' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
                     :
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer text-white" onClick={showSearch}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
