@@ -43,7 +43,7 @@ const editNote = asyncWrapper(async (req, res) => {
 	res.json({ status: "success", data: note }).status(StatusCodes.OK);
 });
 
-const deleteNote = async (req, res) => {
+const deleteNote = asyncWrapper(async (req, res) => {
 	const { params: { id: noteId }, user: { id: userId } } = req;
 	const note = await notesModel.findOneAndDelete({ _id: noteId, ownerId: userId });
 	if (!note) {
@@ -51,14 +51,14 @@ const deleteNote = async (req, res) => {
 			.json({ status: "Note note found." })
 			.status(StatusCodes.NOT_FOUND);
 	}
-	// Deletes a note
+	// Deletes a note 
 	res.json({ status: "success" }).status(StatusCodes.OK);
-};
+});
 
 const createNote = asyncWrapper(async (req, res) => {
 	// Creates a note
 	const newNote = await notesModel.create({ ...req.body, owner: req.user.id }); // Sets the note owner to the current user's id
-	res.json({ status: "success", data: newNote }).status(StatusCodes.OK);
+	res.json({ status: "success", data: newNote }).status(StatusCodes.CREATED);
 });
 
 module.exports = { getNotes, getNote, editNote, deleteNote, createNote };
