@@ -39,6 +39,14 @@ input {
     box-shadow: -10px 0px 15px 5px;
 }
 
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    text-align: center;
+    cursor: pointer;
+}
+
 body,
 html,
 #root {
