@@ -5,6 +5,7 @@ const Sidebar = () => {
     const searchOverlay = useRef()
     const mainSearch = useRef()
     const [sidebarToggled, setSidebarToggled] = useState(true)
+    const [windowWidth, setWindowWidth] = useState(0)
 
     const showSearch = () => {
         searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
@@ -37,6 +38,7 @@ const Sidebar = () => {
         if (body.innerWidth < 1000) {
             setSidebarToggled(false)
         }
+        setWindowWidth(body.innerWidth)
     })
 
     const handleSidebar = () => {
@@ -56,7 +58,7 @@ const Sidebar = () => {
         // w-12 when minimized
         <aside id='mainSidebar' className={`h-full bg-blue-300 flex flex-col relative pt-4 overflow-hidden ${sidebarStyles} duration-500`} >
             {/* Arrow */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 text-white absolute top-0 right-2 hover:translate-x-2 cursor-pointer duration-300 ${sidebarToggled ? 'rotate-180' : ''}`} onClick={handleSidebar}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 text-white absolute -top-1 right-1 hover:translate-x-2 cursor-pointer duration-300 ${windowWidth < 1000 ? 'hidden' : ''} ${sidebarToggled ? 'rotate-180' : ''}`} onClick={handleSidebar}>
                 <path fillRule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clipRule="evenodd" />
             </svg>
 
@@ -68,7 +70,7 @@ const Sidebar = () => {
                 {sidebarToggled ?
                     <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4' placeholder='Search Folders...' onClick={showSearch} ref={miniSearch} />
                     :
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer text-blue-800" onClick={showSearch}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer text-white" onClick={showSearch}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
                 }
