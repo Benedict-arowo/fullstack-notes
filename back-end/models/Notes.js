@@ -13,6 +13,13 @@ const notesSchema = new mongoose.Schema(
 		currentStatus: {
 			type: String,
 		},
+		category: {
+			type: mongoose.Types.ObjectId,
+			ref: "categoryId",
+		},
+		tags: {
+			type: Array
+		},
 		statusList: {
 			type: Array,
 		},
