@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useFolder } from './overlays/Folder'
 
 const Sidebar = () => {
+    const Folder = useFolder()
     const miniSearch = useRef()
     const searchOverlay = useRef()
     const mainSearch = useRef()
@@ -92,20 +94,23 @@ const Sidebar = () => {
                 {/* View All Items */}
                 <section className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
+                        <title>View all items</title>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
                     </svg>
                     {sidebarToggled && <h3>View all items</h3>}
                 </section>
                 {/* Create New Folder */}
-                <section className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
+                <section onClick={() => Folder('folder')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
+                        <title>Create a new folder.</title>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                     </svg>
                     {sidebarToggled && <h3>Create new folder</h3>}
                 </section>
                 {/* Create New Item */}
-                <section className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
+                <section onClick={() => Folder('item')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
+                        <title>Create a new item.</title>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {sidebarToggled && <h3>Create new item</h3>}
@@ -119,7 +124,6 @@ const Sidebar = () => {
                     {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
                 </div>
             </div>
-
 
 
             <footer className={`absolute bottom-0 w-full flex justify-between px-2 py-1 items-center text-slate-200 ${sidebarToggled ? 'bg-blue-400 flex-row' : ''}`}>
