@@ -5,8 +5,8 @@ import Login from "./pages/authentication/Login.jsx";
 import Register from "./pages/authentication/Register.jsx";
 import "./index.css";
 import RedirectAuth from "./contexts/RedirectAuth";
-import UseAuth from "./contexts/UseAuth.js";
 import Index from "./pages/Index.jsx";
+import AuthContext from "./contexts/UseAuth.js";
 
 const App = () => {
 	return (
@@ -17,7 +17,7 @@ const App = () => {
 					<Route path="login" element={<Login />}></Route>
 					<Route path="register" element={<Register />} />
 				</Route>
-				<Route path="" element={<UseAuth />}>
+				<Route path="" element={<AuthContext />}>
 					<Route path="" element={<Container />}>
 						<Route index element={<Index />} />
 					</Route>

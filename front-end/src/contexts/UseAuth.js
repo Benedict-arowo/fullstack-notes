@@ -1,36 +1,38 @@
-import React from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import { useSetUser } from "./UserContext";
 
-const UseAuth = ({ children }) => {
-	<Navigate to={"../login"}></Navigate>;
+const AuthProvider = createContext()
+export const useUser = () => useContext(AuthProvider)
 
-	const setUser = useSetUser();
-	let token = localStorage.getItem("token");
+const AuthContext = ({ children }) => {
+	const navigate = useNavigate()
+	const [user, setUser] = useState();
 
-	console.log(token);
-	if (!token || !token.startsWith("Bearer")) {
-		setUser({ authenticated: false });
-		<Navigate to={"../login"} />;
-	}
+	useEffect(() => {
+		let token = localStorage.getItem("token");
+		if (!token || !token.startsWith("Bearer")) {
+			navigate('/login')
+		}
 
-	try {
-		token = token.split(" ")[1];
-		const decoded = jwt_decode(token);
-	} catch (error) {
-		<Navigate to="/login" />;
-	}
+		try {
+			token = token.split(" ")[1];
+			const decoded = jwt_decode(token);
+			setUser(decoded)
+		} catch (error) {
+			navigate('/login')
+		}
+	}, [])
 
 	// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNzNkY2Y5MWUwMTVjNmFkYTY5MTg0YSIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJpYXQiOjE2Njg1MzgwMTUsImV4cCI6MTY2OTkyMDQxNX0.2TOCTeuoks4RH8WdfgHVbD1YuDQpkZlPyS9n8BAwMZQ
 
 	// setUser(decoded);
 	return (
-		<>
+		<AuthProvider.Provider value={user}>
 			{children}
 			<Outlet />
-		</>
+		</AuthProvider.Provider>
 	);
 };
 
-export default UseAuth;
+export default AuthContext;
