@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { fetchReq } from '../fetchReq'
+import { useFetch } from '../fetchReq'
 
 const ItemsComponent = () => {
+    const customFetch = useFetch()
     const [Items, setItems] = useState([])
 
     useEffect(() => {
         (async () => {
-            const response = await fetchReq({
-                url: '/notes', options: {
+            const response = await customFetch({
+                url: 'notes', options: {
                     headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
                 }
             })
-            setItems(() => response.data)
-            console.log(response)
+            const data = await response.json()
+            setItems(() => data.data)
         })()
+        // eslint-disable-next-line
     }, [])
 
     if (Items) {
@@ -47,7 +49,7 @@ const ItemsComponent = () => {
         })
         return (
             <>
-                {itemsComponent}
+                {itemsComponent.length === 0 ? <p>Empty</p> : itemsComponent}
             </>
         )
     }

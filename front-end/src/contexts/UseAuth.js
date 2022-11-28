@@ -12,16 +12,18 @@ const AuthContext = ({ children }) => {
 	useEffect(() => {
 		let token = localStorage.getItem("token");
 		if (!token || !token.startsWith("Bearer")) {
-			navigate('/login')
+			navigate('../login')
 		}
 
 		try {
 			token = token.split(" ")[1];
 			const decoded = jwt_decode(token);
+			console.log(decoded)
 			setUser(decoded)
 		} catch (error) {
 			navigate('/login')
 		}
+		// eslint-disable-next-line 
 	}, [])
 
 	// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNzNkY2Y5MWUwMTVjNmFkYTY5MTg0YSIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJpYXQiOjE2Njg1MzgwMTUsImV4cCI6MTY2OTkyMDQxNX0.2TOCTeuoks4RH8WdfgHVbD1YuDQpkZlPyS9n8BAwMZQ
