@@ -1,13 +1,25 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useUser } from "./UserContext";
+import jwt_decode from "jwt-decode";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
-const CheckAuth = ({ Children }) => {
-	const User = useUser();
-	console.log(User.authenticated);
-	if (User.authenticated) {
-		return <Navigate to={"../"}></Navigate>;
-	}
+const RedirectAuth = ({ Children }) => {
+	const Navigate = useNavigate()
+
+	useEffect(() => {
+		if (localStorage.getItem('token')) {
+			try {
+				const token = localStorage.getItem('token').split(" ")[1];
+				const decoded = jwt_decode(token);
+				console.log(decoded)
+				if (decoded) {
+					Navigate('../')
+				}
+			} catch (err) {
+				console.log(err)
+			}
+		}
+		// eslint-disable-next-line
+	}, [])
 
 	return (
 		<>
@@ -17,4 +29,4 @@ const CheckAuth = ({ Children }) => {
 	);
 };
 
-export default CheckAuth;
+export default RedirectAuth;
