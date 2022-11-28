@@ -1,7 +1,12 @@
-// eslint-disable-next-line no-unused-vars
+const { StatusCodes } = require("http-status-codes");
+
 const ErrorHandler = (err, req, res, next) => {
 	// Need to handle error made from customError Class
-	res.status(400).json({ err: err.message });
+	if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
+		return res.status(StatusCodes.UNAUTHORIZED).json({ err: "UNAUTHORIZED" });
+	}
+	console.log(err.name);
+	res.status(StatusCodes.BAD_REQUEST).json({ err: err.message });
 };
 
 module.exports = ErrorHandler;
