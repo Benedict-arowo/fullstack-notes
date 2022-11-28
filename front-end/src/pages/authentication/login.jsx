@@ -68,7 +68,6 @@ const Login = () => {
         // Reset the form
         console.log(response)
         const data = await response.json()
-        alert(data)
         if (!response.ok) { // If an error occurs
             console.log('An error as occured') // TODO: show a nice alert for error
             setUser({ authenticated: false })
