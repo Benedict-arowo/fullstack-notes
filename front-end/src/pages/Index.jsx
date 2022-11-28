@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { useState } from 'react'
 import ItemsComponent from '../components/ItemsComponent'
 import Folder from '../components/overlays/Folder'
 import Sidebar from '../components/Sidebar'
 import { useSetTheme } from '../contexts/ThemeContext'
 import { useUser } from '../contexts/UseAuth'
+import Select from 'react-select'
 
 const Index = () => {
     const user = useUser()
@@ -17,7 +17,20 @@ const Index = () => {
         else {
             updateTheme('light')
         }
+        // eslint-disable-next-line 
     }, [])
+
+    // <option value="updated" selected disabled>Sort By</option>
+    // <option value="">Title</option>
+    // <option value="">Name</option>
+    // <option value="">Created</option>
+    // <option value="updated">Updated</option>
+    const selectOptions = [
+        { value: 'updated', label: 'Updated' },
+        { value: 'title', label: 'Title' },
+        { value: 'name', label: 'Name' },
+        { value: 'created', label: 'Created' }
+    ]
 
     return (
         <Folder>
@@ -31,14 +44,8 @@ const Index = () => {
 
                     <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
                         <p>Currently displaying {2} items.</p>
-                        <select name="sort list" id="sortlist" className='px-2 py-1 rounded-full border outline-none bg-blue-300 dark:bg-blue-800 dark:border-blue-900 text-slate-100'>
-                            <option value="updated" selected disabled>Sort By</option>
-                            <option value="title">Title</option>
-                            <option value="name">Name</option>
-                            <option value="created">Created</option>
-                            <option value="updated">Updated</option>
-                            {/* TODO: Maybe an api call to get all the sort options */}
-                        </select>
+                        <Select options={selectOptions} defaultValue={selectOptions[1]} className='text-black' />
+                        {/* TODO: Maybe an api call to get all the sort options */}
                     </section>
                 </section>
                 <section className='mt-10 px-8 flex flex-col gap-4 items-center xs:px-0'>
