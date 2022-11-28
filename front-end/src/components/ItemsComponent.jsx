@@ -36,7 +36,7 @@ const ItemsComponent = () => {
         console.log(data) // TODO: Show success message, and handling possible errors
         await fetchItems()
     }
-    
+
     if (Items) {
         const itemsComponent = Items.map(item => {
             console.log(item)
@@ -76,7 +76,7 @@ const ItemsComponent = () => {
         })
         return (
             <>
-                {itemsComponent.length === 0 ? <p>You currently have no notes.</p> : itemsComponent}
+                {itemsComponent.length === 0 ? <p className='text-white'>You currently have no notes.</p> : itemsComponent}
             </>
         )
     }
