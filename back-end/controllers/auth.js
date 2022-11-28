@@ -11,10 +11,11 @@ const login = async (req, res) => {
 		}); // Throw an error here
 	}
 	// Compares the password saved in the database with the one the provided by the user.
-	const compare = user.verifyPassword(password);
+	const compare = await user.verifyPassword(password);
 	if (!compare) {
-		return res.json({ msg: "Password does not match" }); // Throw an error here
+		return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Password does not match" }); // Throw an error here
 	}
+	// console.log(compare, user);
 	// Generates an access token for the user.
 	const token = user.getToken();
 	user = user.toObject(); // Converts the databases results to an object.
