@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useSetTheme, useTheme } from '../contexts/ThemeContext'
 import { useFolder } from './overlays/Folder'
 
 const Sidebar = () => {
@@ -9,6 +10,8 @@ const Sidebar = () => {
     const [sidebarToggled, setSidebarToggled] = useState(true)
     const [windowWidth, setWindowWidth] = useState(0)
     const minWidth = 1000 // For tablets and phones
+    const theme = useTheme()
+    const setTheme = useSetTheme()
 
     const showSearch = () => {
         searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
@@ -27,6 +30,11 @@ const Sidebar = () => {
         mainSearch.current.focus() // Sets focus on the main search.
 
         // Animate the search dialog.
+    }
+
+    const updateTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        setTheme(newTheme)
     }
 
     const hideOverlay = (e) => {
@@ -69,7 +77,7 @@ const Sidebar = () => {
 
     return (
         // w-12 when minimized
-        <aside id='mainSidebar' className={`h-full bg-blue-300 flex flex-col relative pt-4 overflow-hidden ${sidebarStyles} duration-500`} >
+        <aside id='mainSidebar' className={`h-full bg-blue-300 dark:bg-blue-800 flex flex-col relative pt-4 overflow-hidden ${sidebarStyles} duration-500`} >
             {/* Arrow */}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 text-white absolute -top-1 right-1 hover:translate-x-2 cursor-pointer duration-300 ${windowWidth < minWidth ? 'hidden' : ''} ${sidebarToggled ? 'rotate-180' : ''}`} onClick={handleSidebar}>
                 <path fillRule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clipRule="evenodd" />
@@ -77,7 +85,7 @@ const Sidebar = () => {
 
             {/* Header */}
             {sidebarToggled &&
-                <h1 className='w-full text-center text-3xl text-blue-900 font-bold'>Notes</h1>
+                <h1 className='w-full text-center text-3xl text-blue-900 font-bold dark:text-gray-100'>Notes</h1>
             }
             <section className='mt-6 px-2'>
                 {sidebarToggled ?
@@ -119,15 +127,15 @@ const Sidebar = () => {
 
             <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay duration-300 transition-all z-10'>
                 {/* height: h-3/4 when folders are being dislplayed  */}
-                <div className='bg-blue-300 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
+                <div className='bg-blue-300 dark:bg-blue-800 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
                     <input ref={mainSearch} autoComplete='off' autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full hover:drop-shadow-lg active:drop-shadow-lg transition-all duration-300' />
                     {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
                 </div>
             </div>
 
 
-            <footer className={`absolute bottom-0 w-full flex justify-between px-2 py-1 items-center text-slate-200 ${sidebarToggled ? 'bg-blue-400 flex-row' : ''}`}>
-                {sidebarToggled && <p className='font-bold cursor-pointer hover:text-blue-800 duration-500'>Dark Mode</p>}
+            <footer className={`absolute bottom-0 w-full flex justify-between px-2 py-1 items-center text-slate-200 ${sidebarToggled ? 'bg-blue-400 flex-row dark:bg-blue-900' : ''}`}>
+                {sidebarToggled && <p onClick={() => updateTheme()} className='font-bold cursor-pointer hover:text-blue-800 duration-500'>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</p>}
                 <section className={`${sidebarToggled ? '' : 'flex flex-col-reverse gap-2'}`}>
                     <svg title='Settings' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 hover:rotate-12 cursor-pointer duration-300">
                         <title>Settings</title>
@@ -135,9 +143,19 @@ const Sidebar = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     {!sidebarToggled &&
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8">
-                            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
-                        </svg>
+                        <>
+                            {theme === 'dark' ?
+                                <svg onClick={() => updateTheme()} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 cursor-pointer">
+                                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+                                </svg>
+                                :
+                                <svg onClick={() => updateTheme()} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 cursor-pointer">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                                </svg>
+                            }
+                        </>
+
+
                     }
                 </section>
             </footer>

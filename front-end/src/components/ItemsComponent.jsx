@@ -25,22 +25,22 @@ const ItemsComponent = () => {
             // })
 
             return (
-                <div key={item._id} className='bg-white text-gray-500 px-4 w-full py-2 h-40 rounded grid gap-y-2' >
+                <div key={item._id} className='bg-white text-gray-500 px-4 w-full py-2 h-40 rounded grid gap-y-2 min-w-container-min' >
                     {/* Header */}
                     <div className="flex justify-between flex-row items-center">
-                        <p className='font-medium text-xl text-gray-600 truncate'>{item.title}</p>
-                        <p className='font-light text-sm text-gray-400'>{item.timestamp}</p>
+                        <p className='font-medium text-xl text-gray-600 truncate cursor-pointer'>{item.title}</p>
+                        <p className='font-light text-sm text-gray-400 cursor-default'>{item.timestamp}</p>
                     </div>
                     {/* Body */}
                     <p className='text-sm line-clamp-3'>{item.note}</p>
 
                     {/* Footer */}
-                    <div className="flex justify-between text-gray-100 items-end">
+                    <div className="flex justify-between text-gray-100 items-end flex-wrap">
                         <div className="flex flex-row items-center gap-4 capitalize text-sm font-light">
-                            <p className='bg-blue-300 px-3 py-1 rounded-full'>tag1</p>
+                            <p className='bg-blue-300 dark:bg-blue-800 px-3 py-1 rounded-full cursor-pointer'>tag1</p>
                             {/* {tags} */}
                         </div>
-                        <span className='bg-blue-300 text-white hover:drop-shadow-lg cursor-pointer duration-500 px-3 py-1 rounded'>DEFAULT</span>
+                        <span className='bg-blue-300 dark:bg-blue-800 text-white hover:drop-shadow-lg cursor-pointer duration-500 px-3 py-1 rounded'>DEFAULT</span>
                     </div>
                 </div>
             )

@@ -47,7 +47,7 @@ const Folder = ({ children }) => {
         <FolderProvider.Provider value={toggleFolder}>
             {children}
             <div ref={FolderElement} className='overlay grid place-content-center duration-300' onClick={hideOverlay}>
-                <form action="" method="post" className='bg-blue-300 rounded-md p-4 h-fit transition-all duration-500 px-4 py-4 w-1/2'>
+                <form action="" method="post" className='bg-blue-300 dark:bg-blue-800 rounded-md p-4 h-fit transition-all duration-500 px-4 py-4 w-1/2'>
                     <input autoComplete='off' autoCorrect='false' type="text" name="title" id="titke" placeholder='New Folder Title...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full hover:drop-shadow-lg active:drop-shadow-lg transition-all duration-300' />
                     {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
                 </form>

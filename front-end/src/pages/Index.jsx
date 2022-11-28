@@ -1,29 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import ItemsComponent from '../components/ItemsComponent'
 import Folder from '../components/overlays/Folder'
 import Sidebar from '../components/Sidebar'
+import { useSetTheme } from '../contexts/ThemeContext'
 import { useUser } from '../contexts/UseAuth'
 
 const Index = () => {
     const user = useUser()
+    const updateTheme = useSetTheme()
 
-
-
+    useEffect(() => {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            updateTheme('dark')
+        }
+        else {
+            updateTheme('light')
+        }
+    }, [])
 
     return (
         <Folder>
             <Sidebar />
-            <main className='w-full h-full pt-4 bg-blue-100 overflow-y-scroll pb-4'>
-                <h1 className='text-3xl font-bold text-blue-800 text-center capitalize'>{user ? `${user.username}'s Notes` : 'Notes'}</h1>
+            <main className='w-full h-full pt-4 bg-blue-100 dark:bg-blue-700 overflow-y-scroll pb-4'>
+                <h1 className='text-3xl font-bold dark:text-white text-blue-800 text-center capitalize'>{user ? `${user.username}'s Notes` : 'Notes'}</h1>
 
-                <section className='mx-8 mt-4'>
+                <section className='mx-8 mt-4 xs:mx-0'>
 
                     <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:drop-shadow-lg focus:drop-shadow-lg' placeholder='Search...' />
 
-                    <section className='flex w-full items-top justify-between px-4 text-gray-500 items-center mt-1'>
+                    <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
                         <p>Currently displaying {2} items.</p>
-                        <select name="sort list" id="sortlist" className='px-2 py-1 rounded-full border outline-none bg-blue-300 text-slate-100'>
+                        <select name="sort list" id="sortlist" className='px-2 py-1 rounded-full border outline-none bg-blue-300 dark:bg-blue-800 dark:border-blue-900 text-slate-100'>
                             <option value="updated" selected disabled>Sort By</option>
                             <option value="title">Title</option>
                             <option value="name">Name</option>
@@ -33,7 +41,7 @@ const Index = () => {
                         </select>
                     </section>
                 </section>
-                <section className='mt-10 px-8 flex flex-col gap-4 items-center'>
+                <section className='mt-10 px-8 flex flex-col gap-4 items-center xs:px-0'>
                     <ItemsComponent />
                 </section>
             </main>
