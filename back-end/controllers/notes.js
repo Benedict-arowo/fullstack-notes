@@ -4,9 +4,14 @@ const { asyncWrapper } = require("../middlewears");
 
 const getNotes = asyncWrapper(async (req, res) => {
 	// Get multiple notes
-	const { id } = req.user;
-	const userNotes = await notesModel.find({ owner: id });
-	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
+	const { user: { id: userId }, query: { sort: sort } } = req;
+	let userNotes = notesModel.find({ owner: userId });
+
+	if (sort) {
+		let sorting = sort.split(",");
+		userNotes.sort(sorting.join(" "));
+	}
+	res.json({ count: userNotes.length, data: await userNotes }).status(StatusCodes.OK);
 });
 
 const getNote = asyncWrapper(async (req, res) => {
