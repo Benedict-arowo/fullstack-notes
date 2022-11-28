@@ -3,21 +3,20 @@ import ItemsComponent from '../components/ItemsComponent'
 import Folder from '../components/overlays/Folder'
 import Sidebar from '../components/Sidebar'
 import { useSetTheme } from '../contexts/ThemeContext'
-import { useUser } from '../contexts/UseAuth'
-import Select from 'react-select'
-import ItemsContext, { useItems } from '../contexts/ItemsContext'
+import ItemsContext from '../contexts/ItemsContext'
+import Header from '../components/Header'
 
 const Index = () => {
-    const user = useUser()
-    const items = useItems()
     const updateTheme = useSetTheme()
 
     useEffect(() => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            updateTheme('dark')
+        if (localStorage.getItem('theme')) {
+            updateTheme(localStorage.getItem('theme'))
         }
         else {
-            updateTheme('light')
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                updateTheme('dark')
+            }
         }
         // eslint-disable-next-line 
     }, [])
@@ -27,30 +26,13 @@ const Index = () => {
     // <option value="">Name</option>
     // <option value="">Created</option>
     // <option value="updated">Updated</option>
-    const selectOptions = [
-        { value: 'updated', label: 'Updated' },
-        { value: 'title', label: 'Title' },
-        { value: 'name', label: 'Name' },
-        { value: 'created', label: 'Created' }
-    ]
 
     return (
         <ItemsContext>
             <Folder>
                 <Sidebar />
                 <main className='w-full h-full pt-4 bg-blue-100 dark:bg-blue-700 overflow-y-scroll pb-4'>
-                    <h1 className='text-3xl font-bold dark:text-white text-blue-800 text-center capitalize'>{user ? `${user.username}'s Notes` : 'Notes'}</h1>
-
-                    <section className='mx-8 mt-4 xs:mx-0'>
-
-                        <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:drop-shadow-lg focus:drop-shadow-lg' placeholder='Search...' />
-
-                        <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
-                            <p>Currently displaying {1} items.</p>
-                            <Select options={selectOptions} defaultValue={selectOptions[1]} className='text-black' />
-                            {/* TODO: Maybe an api call to get all the sort options */}
-                        </section>
-                    </section>
+                    <Header />
                     <section className='mt-10 px-8 flex flex-col gap-4 items-center xs:px-0'>
                         <ItemsComponent />
                     </section>
