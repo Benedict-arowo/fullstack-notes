@@ -16,17 +16,12 @@ const ThemeContext = ({ children }) => {
     }
 
     useEffect(() => {
-        if (!theme) {
-            localStorage.removeItem('theme')
+        localStorage.setItem('theme', theme)
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
         }
         else {
-            localStorage.setItem('theme', theme)
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
-            else {
-                document.documentElement.classList.remove('dark');
-            }
+            document.documentElement.classList.remove('dark');
         }
     }, [theme])
 
