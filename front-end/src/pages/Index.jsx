@@ -5,9 +5,11 @@ import Sidebar from '../components/Sidebar'
 import { useSetTheme } from '../contexts/ThemeContext'
 import { useUser } from '../contexts/UseAuth'
 import Select from 'react-select'
+import ItemsContext, { useItems } from '../contexts/ItemsContext'
 
 const Index = () => {
     const user = useUser()
+    const items = useItems()
     const updateTheme = useSetTheme()
 
     useEffect(() => {
@@ -33,26 +35,28 @@ const Index = () => {
     ]
 
     return (
-        <Folder>
-            <Sidebar />
-            <main className='w-full h-full pt-4 bg-blue-100 dark:bg-blue-700 overflow-y-scroll pb-4'>
-                <h1 className='text-3xl font-bold dark:text-white text-blue-800 text-center capitalize'>{user ? `${user.username}'s Notes` : 'Notes'}</h1>
+        <ItemsContext>
+            <Folder>
+                <Sidebar />
+                <main className='w-full h-full pt-4 bg-blue-100 dark:bg-blue-700 overflow-y-scroll pb-4'>
+                    <h1 className='text-3xl font-bold dark:text-white text-blue-800 text-center capitalize'>{user ? `${user.username}'s Notes` : 'Notes'}</h1>
 
-                <section className='mx-8 mt-4 xs:mx-0'>
+                    <section className='mx-8 mt-4 xs:mx-0'>
 
-                    <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:drop-shadow-lg focus:drop-shadow-lg' placeholder='Search...' />
+                        <input autoComplete='off' autoCorrect='false' type="text" name="Search" id="" className='w-full rounded-full py-2 px-4 hover:drop-shadow-lg focus:drop-shadow-lg' placeholder='Search...' />
 
-                    <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
-                        <p>Currently displaying {2} items.</p>
-                        <Select options={selectOptions} defaultValue={selectOptions[1]} className='text-black' />
-                        {/* TODO: Maybe an api call to get all the sort options */}
+                        <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
+                            <p>Currently displaying {1} items.</p>
+                            <Select options={selectOptions} defaultValue={selectOptions[1]} className='text-black' />
+                            {/* TODO: Maybe an api call to get all the sort options */}
+                        </section>
                     </section>
-                </section>
-                <section className='mt-10 px-8 flex flex-col gap-4 items-center xs:px-0'>
-                    <ItemsComponent />
-                </section>
-            </main>
-        </Folder>
+                    <section className='mt-10 px-8 flex flex-col gap-4 items-center xs:px-0'>
+                        <ItemsComponent />
+                    </section>
+                </main>
+            </Folder>
+        </ItemsContext>
     )
 }
 
