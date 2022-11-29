@@ -1,18 +1,34 @@
 import React from 'react'
-import { useItems } from '../contexts/ItemsContext'
+import { useItems, useSetItems } from '../contexts/ItemsContext'
 import { useUser } from '../contexts/UseAuth'
 import Select from 'react-select'
+import { useFetch } from '../fetchReq'
 
 const Header = () => {
-
+    const customFetch = useFetch()
+    const setItems = useSetItems()
     const user = useUser()
     const items = useItems()
 
+    const handleChange = async (item) => {
+        const { value } = item
+        console.log(value)
+        const response = await customFetch({
+            url: `notes?sort=${value}`, options: {
+                headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+            }
+        })
+        const data = await response.json()
+        setItems(() => data.data)
+    }
+
     const selectOptions = [
         { value: 'updated', label: 'Updated' },
+        { value: 'created', label: 'Created' },
         { value: 'title', label: 'Title' },
-        { value: 'name', label: 'Name' },
-        { value: 'created', label: 'Created' }
+        { value: '-created', label: '-Created' },
+        { value: '-updated', label: '-Updated' },
+        { value: '-title', label: '-Title' },
     ]
 
     return (
@@ -25,9 +41,9 @@ const Header = () => {
 
                 <section className='flex w-full items-top justify-between px-4 text-gray-500 dark:text-gray-100 items-center mt-1'>
                     <p>Currently displaying {items && items.length} item{items && items.length === 1 ? '' : 's'}.</p>
-                    <Select options={selectOptions} defaultValue={selectOptions[1]} className='text-black' />
+                    <Select onChange={(e) => handleChange(e)} options={selectOptions} defaultValue={selectOptions[1]} className='text-black w-36' />
                     {/* TODO: Maybe an api call to get all the sort options */}
-                </section>
+                </section> 
             </section>
         </>
     )
