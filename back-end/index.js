@@ -11,9 +11,10 @@ const authRouter = require("./routes/authRouter");
 const notesRouter = require("./routes/notesRouter");
 const errHandler = require("./errors/errorHandler");
 const authentication = require("./middlewears/auth");
+const foldersRouter = require("./routes/foldersRouter");
 const apiLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	max: 500, // Limit each IP to 500 requests per `window` (here, per 15 minutes)
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
@@ -40,8 +41,9 @@ app.get("/", async (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1", authentication, notesRouter);
-
+app.use("/api/v1/folders", authentication, foldersRouter);
 app.use(errHandler);
+
 
 const start = async () => {
 	try {
