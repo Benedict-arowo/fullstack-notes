@@ -18,7 +18,6 @@ const AuthContext = ({ children }) => {
 		try {
 			token = token.split(" ")[1];
 			const decoded = jwt_decode(token);
-			console.log(decoded)
 			setUser(decoded)
 		} catch (error) {
 			navigate('/login')
