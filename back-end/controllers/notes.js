@@ -10,8 +10,10 @@ const getNotes = asyncWrapper(async (req, res) => {
 	if (sort) {
 		let sorting = sort.split(",");
 		userNotes.sort(sorting.join(" "));
+		console.log(sorting.join(" "));
 	}
-	res.json({ count: userNotes.length, data: await userNotes }).status(StatusCodes.OK);
+	userNotes = await userNotes;
+	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
 });
 
 const getNote = asyncWrapper(async (req, res) => {
