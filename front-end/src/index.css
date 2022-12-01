@@ -64,6 +64,22 @@ html,
     @apply top-0 left-0 right-0 bottom-0
 }
 
+input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    min-width: 120px;
+    height: 32px;
+    border: 1px solid white;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+}
+
 main::-webkit-scrollbar {
     width: .8em;
 }
