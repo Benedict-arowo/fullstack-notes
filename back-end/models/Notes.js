@@ -13,9 +13,12 @@ const notesSchema = new mongoose.Schema(
 		currentStatus: {
 			type: String,
 		},
-		category: {
+		folder: {
 			type: mongoose.Types.ObjectId,
-			ref: "categoryId",
+			ref: "folderId",
+		},
+		folderName: {
+			type: String,
 		},
 		tags: {
 			type: Array
