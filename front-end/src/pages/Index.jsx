@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ItemsComponent from '../components/ItemsComponent'
-import Folder from '../components/overlays/Folder'
+import Overlays from '../components/overlays/Overlays'
 import Sidebar from '../components/Sidebar'
 import { useSetTheme } from '../contexts/ThemeContext'
 import ItemsContext from '../contexts/ItemsContext'
@@ -29,7 +29,7 @@ const Index = () => {
 
     return (
         <ItemsContext>
-            <Folder>
+            <Overlays>
                 <Sidebar />
                 <main className='w-full h-full pt-4 bg-blue-100 dark:bg-blue-700 overflow-y-scroll pb-4'>
                     <Header />
@@ -37,7 +37,7 @@ const Index = () => {
                         <ItemsComponent />
                     </section>
                 </main>
-            </Folder>
+            </Overlays>
         </ItemsContext>
     )
 }
