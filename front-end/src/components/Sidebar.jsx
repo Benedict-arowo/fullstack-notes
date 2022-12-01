@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSetTheme, useTheme } from '../contexts/ThemeContext'
-import { useFolder } from './overlays/Folder'
+import { useFetch } from '../fetchReq'
+import { useOverlays } from './overlays/Overlays'
 
 const Sidebar = () => {
-    const Folder = useFolder()
+    const Overlays = useOverlays()
     const miniSearch = useRef()
     const searchOverlay = useRef()
     const mainSearch = useRef()
@@ -12,6 +13,43 @@ const Sidebar = () => {
     const minWidth = 1000 // For tablets and phones
     const theme = useTheme()
     const setTheme = useSetTheme()
+    const [controlledSearch, setControlledSearch] = useState('')
+    const [folderList, setFolderList] = useState('')
+    const customFetch = useFetch()
+
+    const handleSearch = async(event) => {
+        const folderName = event.currentTarget.value
+        setControlledSearch(folderName)
+        if (!folderName) {
+            return 
+        }
+        console.log(123)
+
+        const response = await customFetch({url: `folders?query=${folderName}`, options: {
+            headers: {'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token')}, 
+        }})
+        const data = await response.json()
+        setFolderList(data)
+        console.log(data)
+    }
+
+    useEffect(() => {
+        if (folderList) {
+            FolderComponent()
+        }
+
+    }, [folderList])
+
+    const FolderComponent = () => {
+        const items = folderList.map(item => {
+            return (<div key={item._id} className='flex w-full transition-all duration-300 text-slate-700 justify-between cursor-pointer rounded-md px-4 py-1 bg-white dark:bg-blue-900 dark:text-slate-100'>
+                <p>{item.name}</p>
+                <span className='font-light'>{item.items.length}</span>
+            </div>)
+        })
+
+        return items.slice(0, 5)
+    }
 
     const showSearch = () => {
         searchOverlay.current.style.cssText = 'display: flex; opacity: 0'
@@ -40,6 +78,7 @@ const Sidebar = () => {
     const hideOverlay = (e) => {
         // Closes the overlay whenever its clicked.
         let classLists = e.target.className.split(' ')
+        setControlledSearch('')
         if (classLists.includes('overlay')) {
             const element = e.target
             element.style.cssText = 'opacity: 0; display: flex;'
@@ -58,10 +97,22 @@ const Sidebar = () => {
         if (body.innerWidth < minWidth) {
             setSidebarToggled(false)
         }
+        else {
+            if (sessionStorage.getItem('sidebarToggled')) {
+                let status = sessionStorage.getItem('sidebarToggled')
+                if (status === 'true') {
+                    setSidebarToggled(true)
+                }
+                else {
+                    setSidebarToggled(false)
+                }
+            }
+        }
         setWindowWidth(body.innerWidth)
     })
 
     const handleSidebar = () => {
+        sessionStorage.setItem('sidebarToggled', !sidebarToggled)
         setSidebarToggled(prev => !prev)
     }
 
@@ -108,7 +159,7 @@ const Sidebar = () => {
                     {sidebarToggled && <h3>View all items</h3>}
                 </section>
                 {/* Create New Folder */}
-                <section onClick={() => Folder('folder')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
+                <section onClick={() => Overlays('folder')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
                         <title>Create a new folder.</title>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
@@ -116,7 +167,7 @@ const Sidebar = () => {
                     {sidebarToggled && <h3>Create new folder</h3>}
                 </section>
                 {/* Create New Item */}
-                <section onClick={() => Folder('item')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
+                <section onClick={() => Overlays('item')} className={`hover:text-black cursor-pointer flex w-full flex-row items-center gap-3 ${!sidebarToggled ? 'justify-center' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8">
                         <title>Create a new item.</title>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -127,9 +178,17 @@ const Sidebar = () => {
 
             <div ref={searchOverlay} onClick={(e) => hideOverlay(e)} className='overlay duration-300 transition-all z-10'>
                 {/* height: h-3/4 when folders are being dislplayed  */}
-                <div className='bg-blue-300 dark:bg-blue-800 rounded-md p-4 w-1/2 h-fit transition-all duration-500'>
-                    <input ref={mainSearch} autoComplete='off' autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full hover:drop-shadow-lg active:drop-shadow-lg transition-all duration-300' />
-                    {/* <p className='text-sm text-gray-800'>Currently displaying {0} folders.</p> */}
+                <div className='bg-blue-300 dark:bg-blue-800 rounded-md p-4 w-1/2'>
+                    <input ref={mainSearch} autoComplete='off' value={controlledSearch} onChange={handleSearch} autoCorrect='false' type="text" name="folderSearch" id="folderSearch" placeholder='Search folders...' className='rounded-full px-6 py-4 text-2xl text-gray-600 w-full hover:drop-shadow-lg active:drop-shadow-lg transition-all duration-300' />
+                    {
+                        controlledSearch.length > 0 && 
+                        <>
+                            {folderList && <p className='text-sm dark:text-slate-200 text-gray-800 ml-5'>Currently displaying {folderList && folderList.length >= 5 ? 5 : folderList.length } folder{folderList && folderList.length === 1 ? '' : 's'}.</p>}
+                            <div className={`${folderList ? 'mt-8' : ''} flex gap-2 transition-all duration-300 min-h-fit flex-col`}>
+                                {folderList && <FolderComponent />}
+                            </div>
+                        </>
+                    }
                 </div>
             </div>
 
