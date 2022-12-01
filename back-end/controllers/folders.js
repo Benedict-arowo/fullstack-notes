@@ -16,7 +16,16 @@ const getFolders = asyncWrapper(async (req, res) => {
 });
 
 const newFolder = asyncWrapper(async (req, res) => {
-	res.send("Post Folder");
+	const { user: {id: ownerId}, body: {name, color} } = req;
+	console.log(ownerId, color, name);
+	
+	if (!name || !color) {
+		throw new Error("Invalid request");
+	}
+
+	const newFolder = await Folders.create({name, color, ownerId});
+
+	res.json({msg: "success", data: newFolder}).status(StatusCodes.OK);
 });
 
 const getFolder = asyncWrapper(async (req, res) => {
