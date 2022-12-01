@@ -3,9 +3,8 @@ const Folders = require("../models/Folders");
 const { StatusCodes } = require("http-status-codes");
 
 const getFolders = asyncWrapper(async (req, res) => {
-	const { query } = req.query;
-	const data = Folders.find({});
-	console.log(query);
+	const { query: {query}, user: {id: ownerId} } = req;
+	const data = Folders.find({ownerId});
 
 	if (query) {
 		const pattern = new RegExp(`.*${query}.*`, "i");
