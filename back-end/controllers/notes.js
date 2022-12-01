@@ -4,7 +4,7 @@ const { asyncWrapper } = require("../middlewears");
 
 const getNotes = asyncWrapper(async (req, res) => {
 	// Get multiple notes
-	const { user: { id: userId }, query: { sort: sort } } = req;
+	const { user: { id: userId }, query: { sort: sort, query: query } } = req;
 	let userNotes = notesModel.find({ owner: userId });
 
 	if (sort) {
@@ -12,6 +12,15 @@ const getNotes = asyncWrapper(async (req, res) => {
 		userNotes.sort(sorting.join(" "));
 		console.log(sorting.join(" "));
 	}
+
+	if (query) {
+		const pattern = new RegExp(".*" + query + ".*", "gim");
+		userNotes.find({ $or: [
+			{ title: pattern }, { note: pattern }
+		]});
+	}
+
+
 	userNotes = await userNotes;
 	res.json({ count: userNotes.length, data: userNotes }).status(StatusCodes.OK);
 });
