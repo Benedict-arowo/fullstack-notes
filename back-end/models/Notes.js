@@ -10,9 +10,6 @@ const notesSchema = new mongoose.Schema(
 		note: {
 			type: String,
 		},
-		currentStatus: {
-			type: String,
-		},
 		folder: {
 			type: mongoose.Types.ObjectId,
 			ref: "folderId",
@@ -23,8 +20,11 @@ const notesSchema = new mongoose.Schema(
 		tags: {
 			type: Array
 		},
-		statusList: {
-			type: Array,
+		mode: {
+			type: String,
+			enum: ["plain", "markdown"],
+			required: [true, "Mode is required."],
+			default: "plain"
 		},
 		owner: {
 			type: mongoose.Types.ObjectId,
@@ -34,17 +34,5 @@ const notesSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
-
-notesSchema.pre("save", function (next) {
-	let lowerStatusList = this.statusList.map((status) => status.toLowerCase());
-	// Makes sure the current status is in the user's status list. Case insensitvely
-	if (
-		this.currentStatus != "" &&
-		!lowerStatusList.includes(this.currentStatus.toLowerCase())
-	) {
-		throw new Error("Invalid note status.");
-	}
-	next();
-});
 
 module.exports = mongoose.model("Notes", notesSchema);
