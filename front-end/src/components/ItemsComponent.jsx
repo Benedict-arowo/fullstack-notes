@@ -68,7 +68,7 @@ const ItemsComponent = () => {
                             {item.tags && populateTags}
                             {/* {tags} */}
                         </div>
-                        <span className='bg-blue-300 dark:bg-blue-800 text-white hover:drop-shadow-lg cursor-pointer duration-500 px-3 py-1 rounded'>DEFAULT</span>
+                        <span className='bg-blue-300 dark:bg-blue-800 text-white hover:drop-shadow-lg cursor-pointer duration-500 px-3 py-1 rounded'>{item.folderName || 'None'}</span>
                     </div>
                 </div>
             )
