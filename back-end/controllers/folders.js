@@ -1,5 +1,5 @@
 const { asyncWrapper } = require("../middlewears");
-const Folders = require("../models/Folders");
+const { folderModel: Folders } = require("../models");
 const { StatusCodes } = require("http-status-codes");
 
 const getFolders = asyncWrapper(async (req, res) => {
