@@ -1,23 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import UserContext from "./contexts/UserContext";
 import { BrowserRouter } from "react-router-dom";
-import ThemeContext from "./contexts/ThemeContext";
 import FetchContext from "./fetchReq";
+import GlobalContext from "./contexts/GlobalContext";
+import UserContext from "./contexts/UserContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
 	<React.StrictMode>
-		<UserContext>
-			<ThemeContext>
-				<BrowserRouter>
-					<FetchContext>
+		<GlobalContext>
+			<BrowserRouter>
+				<FetchContext>
+					<UserContext>
 						<App />
-					</FetchContext>
-				</BrowserRouter>
-			</ThemeContext>
-		</UserContext>
+					</UserContext>
+				</FetchContext>
+			</BrowserRouter>
+		</GlobalContext>
 	</React.StrictMode>
 );
