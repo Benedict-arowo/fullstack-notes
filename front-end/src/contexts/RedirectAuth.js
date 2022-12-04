@@ -3,23 +3,23 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const RedirectAuth = ({ Children }) => {
-	const Navigate = useNavigate()
+	const Navigate = useNavigate();
 
 	useEffect(() => {
-		if (localStorage.getItem('token')) {
+		if (localStorage.getItem("token")) {
 			try {
-				const token = localStorage.getItem('token').split(" ")[1];
+				const token = localStorage.getItem("token").split(" ")[1];
 				const decoded = jwt_decode(token);
-				console.log(decoded)
+				console.log(decoded);
 				if (decoded) {
-					Navigate('../')
+					Navigate("../");
 				}
 			} catch (err) {
-				console.log(err)
+				console.log(err);
 			}
 		}
 		// eslint-disable-next-line
-	}, [])
+	}, []);
 
 	return (
 		<>
