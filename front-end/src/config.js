@@ -6,12 +6,20 @@ export const PASSWORD_PATTERN =
 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
 export const USERNAME_PATTERN = /^\D(\w|\d){6,20}$/; // Minimum 6 characters, does not start with a number, maximum 20 characters.
 
-
 const MONTH_NAMES = [
-	'January', 'February', 'March', 'April', 'May', 'June',
-	'July', 'August', 'September', 'October', 'November', 'December'
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
 ];
-
 
 function getFormattedDate(date, prefomattedDate = false, hideYear = false) {
 	const day = date.getDate();
@@ -40,14 +48,14 @@ function getFormattedDate(date, prefomattedDate = false, hideYear = false) {
 	return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
 }
 
-
 // --- Main function
 export function timeAgo(dateParam) {
 	if (!dateParam) {
 		return null;
 	}
 
-	const date = typeof dateParam === 'object' ? dateParam : new Date(dateParam);
+	const date =
+		typeof dateParam === "object" ? dateParam : new Date(dateParam);
 	const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
 	const today = new Date();
 	const yesterday = new Date(today - DAY_IN_MS);
@@ -57,19 +65,18 @@ export function timeAgo(dateParam) {
 	const isYesterday = yesterday.toDateString() === date.toDateString();
 	const isThisYear = today.getFullYear() === date.getFullYear();
 
-
 	if (seconds < 5) {
-		return 'now';
+		return "now";
 	} else if (seconds < 60) {
 		return `${seconds} seconds ago`;
 	} else if (seconds < 90) {
-		return 'about a minute ago';
+		return "about a minute ago";
 	} else if (minutes < 60) {
 		return `${minutes} minutes ago`;
 	} else if (isToday) {
-		return getFormattedDate(date, 'Today'); // Today at 10:20
+		return getFormattedDate(date, "Today"); // Today at 10:20
 	} else if (isYesterday) {
-		return getFormattedDate(date, 'Yesterday'); // Yesterday at 10:20
+		return getFormattedDate(date, "Yesterday"); // Yesterday at 10:20
 	} else if (isThisYear) {
 		return getFormattedDate(date, false, true); // 10. January at 10:20
 	}
